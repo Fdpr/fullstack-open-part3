@@ -37,6 +37,11 @@ app.get('/api/persons/:id', (req, res) => {
 
 })
 
+app.delete('/api/persons/:id', (req, res) => {
+    data = data.filter(person => person.id !== Number(req.params.id))
+    res.status(204).end()
+})
+
 app.get('/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${data.length} people.</p><p>${new Date().toString()}</p>`)
 })
