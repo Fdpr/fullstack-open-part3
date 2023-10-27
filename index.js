@@ -28,4 +28,8 @@ app.get('/api/persons', (req, res) => {
   res.json(data)
 })
 
+app.get('/info', (req, res) => {
+    res.send(`<p>Phonebook has info for ${data.length} people.</p><p>${new Date().toString()}</p>`)
+})
+
 app.listen(3001, "localhost", () => console.log("Server up"))
