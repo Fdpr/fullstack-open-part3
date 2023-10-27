@@ -67,5 +67,5 @@ app.post('/api/persons', (req, res) => {
     data = data.concat(person)
     res.json(person)
 })
-
-app.listen(3001, "localhost", () => console.log("Server up"))
+const PORT = process.env.PORT || 3001
+app.listen(PORT, "localhost", () => console.log(`Server up on port${PORT}`))
