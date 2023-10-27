@@ -49,10 +49,14 @@ app.get('/info', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
+    if (!req.body.name || !req.body.number)
+        return res.status(400).json({error: "incomplete entry", request: req.body})
+    else if (data.find(person => person.name === req.body.name))
+        return res.status(400).json({error: "name must be unique", request: req.body})
     let id = 0
     do id = Math.floor(Math.random() * 10000000)
     while (data.find(person => person.id === id))
-    const person = {... req.body, id}
+    const person = {name: req.body.name, number: req.body.number, id}
     data = data.concat(person)
     res.json(person)
 })
