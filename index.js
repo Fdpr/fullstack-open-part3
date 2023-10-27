@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let data = [
     {
         "id": 1,
@@ -44,6 +46,15 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.get('/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${data.length} people.</p><p>${new Date().toString()}</p>`)
+})
+
+app.post('/api/persons', (req, res) => {
+    let id = 0
+    do id = Math.floor(Math.random() * 10000000)
+    while (data.find(person => person.id === id))
+    const person = {... req.body, id}
+    data = data.concat(person)
+    res.json(person)
 })
 
 app.listen(3001, "localhost", () => console.log("Server up"))
