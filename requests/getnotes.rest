@@ -2,7 +2,7 @@ GET http://localhost:3001/api/persons
 ###
 GET http://localhost:3001/info
 ###
-GET http://localhost:3001/api/persons/653cfcc4b11cea9fe623c7b00
+GET http://localhost:3001/api/persons/653cfcc4b11cea9fe623c7b0
 ###
 DELETE http://localhost:3001/api/persons/653d135a106517dc3be18f7c
 ###
@@ -20,4 +20,12 @@ Content-Type: application/json
 {
     "name": "Ada Lovelace",
     "number": "0"
+}
+###
+PUT http://localhost:3001/api/persons/653d1c1083e60848deb245f6
+Content-Type: application/json
+
+{
+    "name": "Alma",
+    "number": "567"
 }
