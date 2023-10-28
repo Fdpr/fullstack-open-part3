@@ -37,7 +37,8 @@ app.delete('/api/persons/:id', (req, res, next) => {
 })
 
 app.get('/info', (req, res) => {
-    res.send(`<p>Phonebook has info for ${data.length} people.</p><p>${new Date().toString()}</p>`)
+    Person.find({})
+        .then(result => res.send(`<p>Phonebook has info for ${result.length} people.</p><p>${new Date().toString()}</p>`))
 })
 
 app.post('/api/persons', (req, res, next) => {
@@ -59,7 +60,7 @@ app.put('/api/persons/:id', (req, res, next) => {
         name: req.body.name,
         number: req.body.number
     }
-    Person.findByIdAndUpdate(req.params.id, person, {new: true})
+    Person.findByIdAndUpdate(req.params.id, person, { new: true })
         .then(newPerson => res.json(newPerson))
         .catch(error => next(error))
 
