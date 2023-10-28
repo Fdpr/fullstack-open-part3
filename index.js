@@ -36,15 +36,14 @@ app.delete('/api/persons/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.get('/info', (req, res) => {
+app.get('/info', (req, res, next) => {
     Person.find({})
         .then(result => res.send(`<p>Phonebook has info for ${result.length} people.</p><p>${new Date().toString()}</p>`))
+        .catch(error => next(error))
 })
 
 app.post('/api/persons', (req, res, next) => {
-    if (!req.body.name || !req.body.number)
-        return res.status(400).json({ error: "incomplete entry", request: req.body })
-    const person = new Person({
+        const person = new Person({
         name: req.body.name,
         number: req.body.number
     })
@@ -54,13 +53,11 @@ app.post('/api/persons', (req, res, next) => {
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
-    if (!req.body.name || !req.body.number)
-        return res.status(400).json({ error: "incomplete entry", request: req.body })
     const person = {
         name: req.body.name,
         number: req.body.number
     }
-    Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    Person.findByIdAndUpdate(req.params.id, person, { new: true, runValidators: true, context: 'query' })
         .then(newPerson => res.json(newPerson))
         .catch(error => next(error))
 
@@ -78,6 +75,8 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).send({error: error.message})
     }
 
     next(error)
