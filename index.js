@@ -5,7 +5,7 @@ const cors = require('cors')
 const app = express()
 const Person = require('./models/person')
 
-morgan.token('json', (req, res) => req.method === "POST" ? JSON.stringify(req.body) : null)
+morgan.token('json', (req) => req.method === "POST" ? JSON.stringify(req.body) : null)
 
 app.use(cors())
 app.use(express.static('dist'))
@@ -48,7 +48,7 @@ app.post('/api/persons', (req, res, next) => {
         number: req.body.number
     })
     person.save()
-        .then(result => res.json(person))
+        .then(() => res.json(person))
         .catch(error => next(error))
 })
 
